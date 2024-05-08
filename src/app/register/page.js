@@ -1,6 +1,7 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { HomeIcon } from "lucide-react";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -13,20 +14,38 @@ export default function Register() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://5000-itforget-serverit-zgvwm7xo85i.ws-us110.gitpod.io/users",
+        "https://server-it.vercel.app/users",
         { email, password, name, nickname, birthday }
       );
-      // Lógica para redirecionar para a página de login ou exibir uma mensagem de sucesso
     } catch (error) {
       console.error("Error during registration:", error);
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Register</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <div className="flex min-h-screen h-auto w-auto flex-col p-3 border-2 border-zinc-800 rounded-xl">
+      <nav className="flex flex-row justify-between">
+        <a
+          className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
+          href="/"
+        >
+          Home
+          <HomeIcon />
+        </a>
+        <a
+            className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
+            href="/login"
+          >
+            Login
+          </a>
+      </nav>
+      <form
+        className="flex flex-col gap-4 border-2 border-zinc-800 rounded-xl p-12 items-center"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-3xl font-extrabold">Register</h1>
         <input
+          className="p-4"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -34,6 +53,7 @@ export default function Register() {
           required
         />
         <input
+          className="p-4"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -41,6 +61,7 @@ export default function Register() {
           required
         />
         <input
+          className="p-4"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -48,6 +69,7 @@ export default function Register() {
           required
         />
         <input
+          className="p-4"
           type="text"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
@@ -55,13 +77,19 @@ export default function Register() {
           required
         />
         <input
+          className="p-4"
           type="date"
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           placeholder="Birthday"
           required
         />
-        <button type="submit">Register</button>
+        <button
+          className="font-bold bg-zinc-800 text-zinc-200 rounded-xl p-2 hover:bg-zinc-400"
+          type="submit"
+        >
+          Register
+        </button>
       </form>
     </div>
   );
