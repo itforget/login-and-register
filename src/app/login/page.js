@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { HomeIcon } from "lucide-react";
+import { auth } from "../utils/auth.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,25 +18,15 @@ export default function Login() {
       const token = response.data.token;
       document.cookie = `token=${token}; path=/`;
       document.cookie = `id=${id}; path=/`;
-      console.log(document.cookie)
-
-      const auth = await axios.get(
-        `https://server-it.vercel.app/user/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (auth === null) {
+      auth()
+      if (response === null) {
         alert("Usuário não encontrado!");
-        window.location.href = "/";
       } else {
         alert("Login realizado com sucesso!");
         window.location.href = "/";
       }
     } catch (error) {
-      setError("Usuário ou senha inválidos!");
+      setError("Usuário ou senha inválidos!", error);
     }
   };
 

@@ -1,24 +1,26 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import axios from "axios";
 import { HomeIcon } from "lucide-react";
 
 export default function Register() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const registerUser = async () => {
     try {
-      const response = await axios.post(
-        "https://server-it.vercel.app/users",
-        { email, password, name, nickname, birthday }
-      );
+      const response = await axios.post("https://server-it.vercel.app/auth/register", {
+        name,
+        email,
+        password,
+        confirmpassword,
+      });
+      alert(response.data.msg);
+      window.location.href = "/login";
     } catch (error) {
-      console.error("Error during registration:", error);
+      alert(error.response.data.error);
     }
   };
 
@@ -33,16 +35,13 @@ export default function Register() {
           <HomeIcon />
         </a>
         <a
-            className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
-            href="/login"
-          >
-            Login
-          </a>
+          className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
+          href="/login"
+        >
+          Login
+        </a>
       </nav>
-      <form
-        className="flex flex-col gap-4 border-2 border-zinc-800 rounded-xl p-12 items-center"
-        onSubmit={handleSubmit}
-      >
+      <div className="flex flex-col gap-4 border-2 border-zinc-800 rounded-xl p-12 items-center">
         <h1 className="text-3xl font-extrabold">Register</h1>
         <input
           className="p-4"
@@ -50,14 +49,6 @@ export default function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
-          required
-        />
-        <input
-          className="p-4"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
           required
         />
         <input
@@ -70,27 +61,28 @@ export default function Register() {
         />
         <input
           className="p-4"
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="Nickname"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
           required
         />
         <input
           className="p-4"
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          placeholder="Birthday"
+          type="password"
+          value={confirmpassword}
+          onChange={(e) => setConfirmpassword(e.target.value)}
+          placeholder="Confirm password"
           required
         />
         <button
+          onClick={registerUser}
           className="font-bold bg-zinc-800 text-zinc-200 rounded-xl p-2 hover:bg-zinc-400"
           type="submit"
         >
           Register
         </button>
-      </form>
+      </div>
     </div>
   );
 }
