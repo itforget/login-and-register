@@ -19,11 +19,14 @@ export async function auth() {
         },
       }
     );
-
-    console.log("Usuário autenticado!");
-    const name = response.data.user.name;
-    return name;
+    const nameUser = response.data.user.name;
+    return nameUser;
+    function goToPages(page) {
+      window.location.href = `/${page}`;
+    }
+    return goToPages()
   } catch (error) {
     console.error("Usuário não autenticado!");
+    return null; 
   }
 }

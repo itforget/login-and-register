@@ -2,7 +2,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { HomeIcon } from "lucide-react";
-import { auth } from "../utils/auth.js";
+import { auth } from "../utils/auth";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,6 @@ export default function Login() {
       const token = response.data.token;
       document.cookie = `token=${token}; path=/`;
       document.cookie = `id=${id}; path=/`;
-      auth()
       if (response === null) {
         alert("Usuário não encontrado!");
       } else {
