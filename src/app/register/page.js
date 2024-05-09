@@ -8,7 +8,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
-
+  const [msg, setMsg] = useState("");
   const registerUser = async () => {
     try {
       const response = await axios.post("https://server-it.vercel.app/auth/register", {
@@ -17,7 +17,8 @@ export default function Register() {
         password,
         confirmpassword,
       });
-      alert(response.data.msg);
+      const msg = response.data.msg;
+      setMsg(msg);
       window.location.href = "/login";
     } catch (error) {
       alert(error.response.data.error);
@@ -82,6 +83,7 @@ export default function Register() {
         >
           Register
         </button>
+        {msg && <p>{msg}</p>}
       </div>
     </div>
   );

@@ -1,20 +1,21 @@
-"use client";
+'use client'
 import { useState } from "react";
 import axios from "axios";
 import { HomeIcon } from "lucide-react";
-import { auth } from "../utils/auth";
-
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [msg, setMsg] = useState("");
+
   const handleLogin = async () => {
     try {
       const response = await axios.post(
         "https://server-it.vercel.app/auth/login",
         { email, password }
       );
+      const msg = response.data.msg;
       const id = response.data.userId;
       const token = response.data.token;
       document.cookie = `token=${token}; path=/`;
@@ -22,7 +23,7 @@ export default function Login() {
       if (response === null) {
         alert("Usuário não encontrado!");
       } else {
-        alert("Login realizado com sucesso!");
+        setMsg(msg);
         window.location.href = "/";
       }
     } catch (error) {
@@ -32,14 +33,21 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen h-auto w-auto flex-col p-3 border-2 border-zinc-800 rounded-xl">
-     <nav className="flex flex-row justify-between">
-      <a className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2" href="/">Home
+      <nav className="flex flex-row justify-between">
+        <a
+          className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
+          href="/"
+        >
+          Home
           <HomeIcon />
         </a>
-        <a className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2" href="/register">
-            Register
+        <a
+          className="text-xl font-bold flex flex-row items-center p-3 border-2 border-zinc-800 rounded-xl hover:bg-zinc-800 mb-2"
+          href="/register"
+        >
+          Register
         </a>
-     </nav>
+      </nav>
       <div className="flex flex-col gap-4 border-2 border-zinc-800 rounded-xl p-12 items-center justify-center">
         <h1 className="text-3xl font-extrabold">Login</h1>
         {error && <p>{error}</p>}
@@ -65,6 +73,7 @@ export default function Login() {
         >
           Login
         </button>
+        {msg && <p>{msg}</p>}
       </div>
     </div>
   );
